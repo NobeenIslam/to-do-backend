@@ -18,14 +18,14 @@ let idCounter = 0;
  * @returns the created items
  */
 export const addDummyDbItems = (n: number): DbItemWithId[] => {
-  const createdSignatures: DbItemWithId[] = [];
+  const createdTaskList: DbItemWithId[] = [];
   for (let count = 0; count < n; count++) {
-    const createdSignature = addDbItem({
+    const createdTask = addDbItem({
       // possibly add some generated data here
     });
-    createdSignatures.push(createdSignature);
+    createdTaskList.push(createdTask);
   }
-  return createdSignatures;
+  return createdTaskList;
 };
 
 /**
