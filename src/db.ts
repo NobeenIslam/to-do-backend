@@ -1,5 +1,5 @@
 export interface DbItem {
-  // sketch out interface here
+  taskName: string
 }
 
 export interface DbItemWithId extends DbItem {
@@ -21,7 +21,7 @@ export const addDummyDbItems = (n: number): DbItemWithId[] => {
   const createdTaskList: DbItemWithId[] = [];
   for (let count = 0; count < n; count++) {
     const createdTask = addDbItem({
-      // possibly add some generated data here
+      taskName: ""
     });
     createdTaskList.push(createdTask);
   }
