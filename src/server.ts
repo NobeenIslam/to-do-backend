@@ -41,7 +41,7 @@ app.get("/tasks", (req, res) => {
 });
 
 // POST /items
-app.post<{}, {}, DbItem>("/items", (req, res) => {
+app.post<{}, {}, DbItem>("/tasks", (req, res) => {
   // to be rigorous, ought to handle non-conforming request bodies
   // ... but omitting this as a simplification
   const postData = req.body;
@@ -50,7 +50,7 @@ app.post<{}, {}, DbItem>("/items", (req, res) => {
 });
 
 // GET /items/:id
-app.get<{ id: string }>("/items/:id", (req, res) => {
+app.get<{ id: string }>("/tasks/:id", (req, res) => {
   const matchingTask = getDbItemById(parseInt(req.params.id));
   if (matchingTask === "not found") {
     res.status(404).json(matchingTask);
@@ -60,7 +60,7 @@ app.get<{ id: string }>("/items/:id", (req, res) => {
 });
 
 // DELETE /items/:id
-app.delete<{ id: string }>("/items/:id", (req, res) => {
+app.delete<{ id: string }>("/tasks/:id", (req, res) => {
   const matchingTask = getDbItemById(parseInt(req.params.id));
   if (matchingTask === "not found") {
     res.status(404).json(matchingTask);
@@ -70,7 +70,7 @@ app.delete<{ id: string }>("/items/:id", (req, res) => {
 });
 
 // PATCH /items/:id
-app.patch<{ id: string }, {}, Partial<DbItem>>("/items/:id", (req, res) => {
+app.patch<{ id: string }, {}, Partial<DbItem>>("/tasks/:id", (req, res) => {
   const matchingTask = updateDbItemById(parseInt(req.params.id), req.body);
   if (matchingTask === "not found") {
     res.status(404).json(matchingTask);
