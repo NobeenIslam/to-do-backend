@@ -23,7 +23,8 @@ interface task{
   taskName:string
 }
 
-const tasks:task[] =[]
+let idCounter = 0;
+let tasks:task[] =[]
 
 app.get("/", (req, res) => {
   const pathToFile = filePath("../public/index.html");
@@ -33,6 +34,28 @@ app.get("/", (req, res) => {
 app.get("/tasks",(req,res)=>{
   res.status(201).json(tasks)
 })
+
+app.post<{},{},{taskName:string, id:string}>("/tasks",(req,res)=>{
+  const newTask = req.body
+  const newId = idCounter+=1
+  newTask.id = newId.toString()
+
+  if (newTask.taskName === ""){
+    res.status(400).send("There doesn't seem to be a joke here")
+    return
+  }
+
+  tasks.push(newTask)
+  res.status(201).json(newTask)
+})
+
+
+function clearTasks(){
+  tasks = []
+  console.log(tasks)
+  return
+}
+//clearTasks()
 
 app.listen(PORT_NUMBER, () => {
   console.log(`Server is listening on port ${PORT_NUMBER}!`);
