@@ -1,13 +1,6 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
-import {
-  addDbItem,
-  getAllDbItems,
-  getDbItemById,
-  DbItem,
-  updateDbItemById,
-} from "./db";
 import filePath from "./filePath";
 
 
@@ -26,16 +19,20 @@ const PORT_NUMBER = process.env.PORT;
 
 // API info page
 
+interface task{
+  taskName:string
+}
+
+const tasks:task[] =[]
+
 app.get("/", (req, res) => {
   const pathToFile = filePath("../public/index.html");
   res.sendFile(pathToFile);
 });
 
-
-
-
-
-
+app.get("/tasks",(req,res)=>{
+  res.status(201).json(tasks)
+})
 
 app.listen(PORT_NUMBER, () => {
   console.log(`Server is listening on port ${PORT_NUMBER}!`);
