@@ -62,6 +62,12 @@ app.delete<{ id: string }, {}, {}>("/tasks/:id", (req, res) => {
   res.status(201).send(`Congrats, you deleted a task`);
 });
 
+app.delete<{}, {}, {}>("/tasks", (req, res) => {
+  tasks = [];
+  idCounter = 0;
+  res.status(201).send("You have deleted all your tasks");
+});
+
 function clearTasks() {
   tasks = [];
   console.log(tasks);
