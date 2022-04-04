@@ -20,7 +20,8 @@ const PORT_NUMBER = process.env.PORT;
 // API info page
 
 interface task{
-  taskName:string
+  taskName:string,
+  id:string
 }
 
 let idCounter = 0;
@@ -49,6 +50,19 @@ app.post<{},{},{taskName:string, id:string}>("/tasks",(req,res)=>{
   res.status(201).json(newTask)
 })
 
+app.delete<{id:string},{},{}>("/tasks/:id",(req,res)=>{
+  const idToDelete = req.params.id
+  const indexToDelete = tasks.findIndex(task => task.id === idToDelete)
+
+  if(indexToDelete === undefined){
+    res.status(400).send("Sorry mate, this task aint there")
+    return
+  }
+
+  tasks.splice(indexToDelete,1)
+  res.status(201).send(`Congrats, you deleted a task`)
+  
+})
 
 function clearTasks(){
   tasks = []
