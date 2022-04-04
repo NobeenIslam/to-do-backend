@@ -3,7 +3,6 @@ import cors from "cors";
 import dotenv from "dotenv";
 import filePath from "./filePath";
 
-
 const app = express();
 
 /** Parses JSON data in a request automatically */
@@ -19,55 +18,54 @@ const PORT_NUMBER = process.env.PORT;
 
 // API info page
 
-interface task{
-  taskName:string,
-  id:string
+interface task {
+  taskName: string;
+  id: string;
 }
 
 let idCounter = 0;
-let tasks:task[] =[]
+let tasks: task[] = [];
 
 app.get("/", (req, res) => {
   const pathToFile = filePath("../public/index.html");
   res.sendFile(pathToFile);
 });
 
-app.get("/tasks",(req,res)=>{
-  res.status(201).json(tasks)
-})
+app.get("/tasks", (req, res) => {
+  res.status(201).json(tasks);
+});
 
-app.post<{},{},{taskName:string, id:string}>("/tasks",(req,res)=>{
-  const newTask = req.body
-  const newId = idCounter+=1
-  newTask.id = newId.toString()
+app.post<{}, {}, { taskName: string; id: string }>("/tasks", (req, res) => {
+  const newTask = req.body;
+  const newId = (idCounter += 1);
+  newTask.id = newId.toString();
 
-  if (newTask.taskName === ""){
-    res.status(400).send("There doesn't seem to be a joke here")
-    return
+  if (newTask.taskName === "") {
+    res.status(400).send("There doesn't seem to be a joke here");
+    return;
   }
 
-  tasks.push(newTask)
-  res.status(201).json(newTask)
-})
+  tasks.push(newTask);
+  res.status(201).json(newTask);
+});
 
-app.delete<{id:string},{},{}>("/tasks/:id",(req,res)=>{
-  const idToDelete = req.params.id
-  const indexToDelete = tasks.findIndex(task => task.id === idToDelete)
+app.delete<{ id: string }, {}, {}>("/tasks/:id", (req, res) => {
+  const idToDelete = req.params.id;
+  const indexToDelete = tasks.findIndex((task) => task.id === idToDelete);
 
-  if(indexToDelete === undefined){
-    res.status(400).send("Sorry mate, this task aint there")
-    return
+  if (indexToDelete === undefined) {
+    res.status(400).send("Sorry mate, this task aint there");
+    return;
   }
 
-  tasks.splice(indexToDelete,1)
-  res.status(201).send(`Congrats, you deleted a task`)
-  
-})
+  tasks.splice(indexToDelete, 1);
+  res.status(201).send(`Congrats, you deleted a task`);
+});
 
-function clearTasks(){
-  tasks = []
-  console.log(tasks)
-  return
+function clearTasks() {
+  tasks = [];
+  console.log(tasks);
+  return;
 }
 //clearTasks()
 
