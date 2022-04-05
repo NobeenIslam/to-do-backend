@@ -68,12 +68,6 @@ app.delete<{}, {}, {}>("/tasks", (req, res) => {
   res.status(201).send("You have deleted all your tasks");
 });
 
-function clearTasks() {
-  tasks = [];
-  console.log(tasks);
-  return;
-}
-//clearTasks()
 
 app.listen(PORT_NUMBER, () => {
   console.log(`Server is listening on port ${PORT_NUMBER}!`);
