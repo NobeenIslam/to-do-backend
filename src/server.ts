@@ -49,27 +49,30 @@ app.post<{}, {}, task>("/tasks", (req, res) => {
   res.status(201).json(newTask);
 });
 
-app.patch<{ id: string }, {}, { taskName: string }>("/tasks/:id", (req, res) => {
-  const updatedTaskName = req.body
-  const idToUpdate = req.params.id
-  const indexToUpdate = tasks.findIndex(task => task.id === idToUpdate)
+app.patch<{ id: string }, {}, { taskName: string }>(
+  "/tasks/:id",
+  (req, res) => {
+    const updatedTaskName = req.body;
+    const idToUpdate = req.params.id;
+    const indexToUpdate = tasks.findIndex((task) => task.id === idToUpdate);
 
-  if (indexToUpdate < 0) {
-    res.status(400).send("Sorry mate, this task aint there")
-    return;
+    if (indexToUpdate < 0) {
+      res.status(400).send("Sorry mate, this task aint there");
+      return;
+    }
+
+    tasks[indexToUpdate]["taskName"] = updatedTaskName.taskName;
+
+    res.status(201).json(tasks[indexToUpdate]);
   }
-
-  tasks[indexToUpdate]["taskName"] = updatedTaskName.taskName
-
-  res.status(201).json(tasks[indexToUpdate])
-})
+);
 
 app.delete<{ id: string }, {}, {}>("/tasks/:id", (req, res) => {
   const idToDelete = req.params.id;
   const indexToDelete = tasks.findIndex((task) => task.id === idToDelete);
 
   if (indexToDelete < 0) {
-    res.status(400).send("Sorry mate, this task aint there")
+    res.status(400).send("Sorry mate, this task aint there");
     return;
   }
 
@@ -82,8 +85,6 @@ app.delete<{}, {}, {}>("/tasks", (req, res) => {
   idCounter = 0;
   res.status(201).send("You have deleted all your tasks");
 });
-
-
 
 app.listen(PORT_NUMBER, () => {
   console.log(`Server is listening on port ${PORT_NUMBER}!`);
