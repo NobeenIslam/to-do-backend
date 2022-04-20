@@ -35,7 +35,7 @@ app.get("/tasks", (req, res) => {
   res.status(201).json(tasks);
 });
 
-app.post<{}, {}, { taskName: string; id: string }>("/tasks", (req, res) => {
+app.post<{}, {},task>("/tasks", (req, res) => {
   const newTask = req.body;
   const newId = (idCounter += 1);
   newTask.id = newId.toString();
@@ -49,12 +49,18 @@ app.post<{}, {}, { taskName: string; id: string }>("/tasks", (req, res) => {
   res.status(201).json(newTask);
 });
 
+app.patch<{id: string},{},task>("/tasks/:id",(req,res)=>{
+  const updatedTask = req.body
+
+  res.status(201).send("your mom")
+})
+
 app.delete<{ id: string }, {}, {}>("/tasks/:id", (req, res) => {
   const idToDelete = req.params.id;
   const indexToDelete = tasks.findIndex((task) => task.id === idToDelete);
 
-  if (indexToDelete === undefined) {
-    res.status(400).send("Sorry mate, this task aint there");
+  if (indexToDelete< 0) {
+    res.status(400).send("Sorry mate, this task aint there")
     return;
   }
 
@@ -67,6 +73,7 @@ app.delete<{}, {}, {}>("/tasks", (req, res) => {
   idCounter = 0;
   res.status(201).send("You have deleted all your tasks");
 });
+
 
 
 app.listen(PORT_NUMBER, () => {
