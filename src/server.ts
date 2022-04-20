@@ -35,7 +35,7 @@ app.get("/tasks", (req, res) => {
   res.status(201).json(tasks);
 });
 
-app.post<{}, {},task>("/tasks", (req, res) => {
+app.post<{}, {}, task>("/tasks", (req, res) => {
   const newTask = req.body;
   const newId = (idCounter += 1);
   newTask.id = newId.toString();
@@ -49,17 +49,26 @@ app.post<{}, {},task>("/tasks", (req, res) => {
   res.status(201).json(newTask);
 });
 
-app.patch<{id: string},{},task>("/tasks/:id",(req,res)=>{
-  const updatedTask = req.body
+app.patch<{ id: string }, {}, { taskName: string }>("/tasks/:id", (req, res) => {
+  const updatedTaskName = req.body
+  const idToUpdate = req.params.id
+  const indexToUpdate = tasks.findIndex(task => task.id === idToUpdate)
 
-  res.status(201).send("your mom")
+  if (indexToUpdate < 0) {
+    res.status(400).send("Sorry mate, this task aint there")
+    return;
+  }
+
+  tasks[indexToUpdate]["taskName"] = updatedTaskName.taskName
+
+  res.status(201).json(tasks[indexToUpdate])
 })
 
 app.delete<{ id: string }, {}, {}>("/tasks/:id", (req, res) => {
   const idToDelete = req.params.id;
   const indexToDelete = tasks.findIndex((task) => task.id === idToDelete);
 
-  if (indexToDelete< 0) {
+  if (indexToDelete < 0) {
     res.status(400).send("Sorry mate, this task aint there")
     return;
   }
