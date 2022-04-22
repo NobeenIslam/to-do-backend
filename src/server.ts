@@ -60,7 +60,7 @@ app.patch<{ id: string }, {}, { taskName: string }>(
       res.status(400).send("Sorry mate, this task aint there");
       return;
     }
-    const taskToUpdate = tasks[indexToUpdate]
+    const taskToUpdate = tasks[indexToUpdate];
     taskToUpdate["taskName"] = updatedTaskName.taskName;
 
     res.status(201).json(tasks[indexToUpdate]);
